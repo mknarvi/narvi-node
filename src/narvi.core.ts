@@ -6,10 +6,13 @@ import {
     getNarviRequestSignaturePayload,
     getNarviRequestSignature,
     getNarviRequestHeaders,
+    getNarviChallengeSignature,
+    getNarviWebhookSignature,
   loadPrivateKeyFromFile,
   pascalToCamelCase,
   validateInteger,
 } from './utils/utils'
+import { webhooks } from './Webhooks'
 import * as resources from './api/resources/resources'
 import { NarviResource } from './api/resources/NarviResource'
 import { HttpClient, HttpClientResponse } from './http/HttpClient'
@@ -148,6 +151,10 @@ export function createNarvi(
     // this._setApiKey(key)
     this.errors = _Error
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore webhooks is not part of NarviObject's base shape
+    this.webhooks = webhooks
+
     this._requestSender = requestSender(this)
 
     // Expose NarviResource on the instance too
@@ -166,6 +173,9 @@ export function createNarvi(
   Narvi.getNarviRequestHeaders = getNarviRequestHeaders
   Narvi.getNarviRequestSignature = getNarviRequestSignature
   Narvi.getNarviRequestSignaturePayload = getNarviRequestSignaturePayload
+  Narvi.getNarviChallengeSignature = getNarviChallengeSignature
+  Narvi.getNarviWebhookSignature = getNarviWebhookSignature
+  Narvi.webhooks = webhooks
 
   /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
   // @ts-ignore

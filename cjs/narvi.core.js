@@ -4,6 +4,7 @@ exports.createNarvi = createNarvi;
 const apiVersion = require("./api/apiVersion");
 const RequestSender_1 = require("./api/requests/RequestSender");
 const utils_1 = require("./utils/utils");
+const Webhooks_1 = require("./Webhooks");
 const resources = require("./api/resources/resources");
 const NarviResource_1 = require("./api/resources/NarviResource");
 const HttpClient_1 = require("./http/HttpClient");
@@ -85,6 +86,9 @@ function createNarvi(platformFunctions, requestSender = defaultRequestSenderFact
         this._prepResources();
         // this._setApiKey(key)
         this.errors = _Error;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore webhooks is not part of NarviObject's base shape
+        this.webhooks = Webhooks_1.webhooks;
         this._requestSender = requestSender(this);
         // Expose NarviResource on the instance too
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -101,6 +105,9 @@ function createNarvi(platformFunctions, requestSender = defaultRequestSenderFact
     Narvi.getNarviRequestHeaders = utils_1.getNarviRequestHeaders;
     Narvi.getNarviRequestSignature = utils_1.getNarviRequestSignature;
     Narvi.getNarviRequestSignaturePayload = utils_1.getNarviRequestSignaturePayload;
+    Narvi.getNarviChallengeSignature = utils_1.getNarviChallengeSignature;
+    Narvi.getNarviWebhookSignature = utils_1.getNarviWebhookSignature;
+    Narvi.webhooks = Webhooks_1.webhooks;
     /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
     // @ts-ignore
     Narvi.prototype = {

@@ -506,3 +506,61 @@ export function getNarviRequestSignaturePayload (params: GetNarviSignaturePayloa
     payload: isEmpty(payload) ? undefined : payload
   })
 }
+
+export interface ChallengeSignatureParams {
+  privateKey: crypto.KeyObject
+  challengePid: string
+  target: string
+  privatePid: string
+}
+
+export function getNarviChallengeSignature(params: ChallengeSignatureParams) {
+  const { privateKey, challengePid, target, privatePid } = params
+
+  const dataToHash = [challengePid, target, privatePid].join('')
+
+  const hash = crypto.createHash('sha256').update(dataToHash).digest()
+
+  const signature = crypto.sign('sha256', hash, privateKey)
+
+  const signatureString = signature.toString('base64')
+
+  return signatureString
+}
+
+export interface WebhookSignatureParams {
+  url: string
+  method?: string
+  nonce: string
+  eventType: string
+  eventPID: string
+  queryParams?: RequestData
+  payload?: RequestData
+  webhookSecret: string
+}
+
+export function getNarviWebhookSignature(params: WebhookSignatureParams): string {
+  const {
+    url,
+    method = 'POST',
+    nonce,
+    eventType,
+    eventPID,
+    queryParams,
+    payload,
+    webhookSecret,
+  } = params
+
+  const hashElems = [
+    getPathFromUrl(url),
+    method,
+    nonce,
+    eventType,
+    eventPID,
+    isEmpty(queryParams) ? '' : jsonStringify(queryParams),
+    isEmpty(payload) ? '' : jsonStringify(payload),
+    webhookSecret,
+  ]
+
+  return crypto.createHash('sha256').update(hashElems.join('')).digest('hex')
+}
