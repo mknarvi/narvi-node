@@ -1,5 +1,7 @@
 # Changelog
 
+## [2.1.2](https://github.com/narvicom/narvi-node/compare/2.1.0...2.1.2) (2026-06-08)
+
 ## [2.1.0](https://github.com/narvicom/narvi-node/compare/2.0.52...2.1.0) (2026-06-08)
 
 ### Features
