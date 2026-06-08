@@ -26,7 +26,7 @@ declare module 'narvi' {
     }
 
     interface TransactionsUpdateParams {
-      id: string
+      accept_vop?: boolean
     }
 
     namespace TransactionsUpdateParams {}

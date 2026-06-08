@@ -15,4 +15,8 @@ export const Transactions = NarviResource.extend({
         methodType: 'list',
         fullPath: '/rest/v1.0/transactions/list',
     }),
+    update: narviMethod({
+        method: 'PATCH',
+        fullPath: '/rest/v1.0/transactions/update/{transactionId}',
+    }),
 });

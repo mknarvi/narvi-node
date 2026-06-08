@@ -356,3 +356,25 @@ export function getNarviRequestSignaturePayload(params) {
         payload: isEmpty(payload) ? undefined : payload
     });
 }
+export function getNarviChallengeSignature(params) {
+    const { privateKey, challengePid, target, privatePid } = params;
+    const dataToHash = [challengePid, target, privatePid].join('');
+    const hash = crypto.createHash('sha256').update(dataToHash).digest();
+    const signature = crypto.sign('sha256', hash, privateKey);
+    const signatureString = signature.toString('base64');
+    return signatureString;
+}
+export function getNarviWebhookSignature(params) {
+    const { url, method = 'POST', nonce, eventType, eventPID, queryParams, payload, webhookSecret, } = params;
+    const hashElems = [
+        getPathFromUrl(url),
+        method,
+        nonce,
+        eventType,
+        eventPID,
+        isEmpty(queryParams) ? '' : jsonStringify(queryParams),
+        isEmpty(payload) ? '' : jsonStringify(payload),
+        webhookSecret,
+    ];
+    return crypto.createHash('sha256').update(hashElems.join('')).digest('hex');
+}

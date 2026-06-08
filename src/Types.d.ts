@@ -32,6 +32,13 @@ export interface GetNarviSignaturePayloadParams {
   payload?: any;
 }
 
+export interface ChallengeSignatureParams {
+  privateKey: KeyObject;
+  challengePid: string;
+  target: string;
+  privatePid: string;
+}
+
 // --- Main Types ---
 
 export type AppInfo = {
@@ -214,6 +221,7 @@ export type NarviConstructor = {
     queryParams?: any;
     payload?: any;
   };
+  getNarviChallengeSignature: (params: ChallengeSignatureParams) => string;
 };
 
 declare const Narvi: NarviConstructor;

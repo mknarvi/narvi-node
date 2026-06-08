@@ -5,6 +5,7 @@
 // Imports: The beginning of the section generated from our OpenAPI spec
 ///<reference path='./AccountsResource.d.ts' />
 ///<reference path='./TransactionsResource.d.ts' />
+///<reference path='./BaasResource.d.ts' />
 // Imports: The end of the section generated from our OpenAPI spec
 
 import { KeyObject } from "crypto";
@@ -36,6 +37,50 @@ declare module 'narvi' {
       queryParams?: any;
       payload?: any;
     }
+
+    interface GetNarviChallengeSignatureParams {
+      privateKey: KeyObject;
+      challengePid: string;
+      target: string;
+      privatePid: string;
+    }
+
+    interface WebhookSignatureParams {
+      url: string;
+      method?: string;
+      nonce: string;
+      eventType: string;
+      eventPID: string;
+      queryParams?: RequestData;
+      payload?: RequestData;
+      webhookSecret: string;
+    }
+
+    interface WebhookVerifyParams {
+      url: string;
+      method?: string;
+      payload?: string | RequestData;
+      queryParams?: RequestData;
+      secret: string;
+      headers?: Record<string, string | Array<string> | undefined>;
+      signature?: string;
+      timestamp?: string;
+      eventType?: string;
+      eventPID?: string;
+    }
+
+    interface NarviWebhookEvent {
+      type: string;
+      pid: string;
+      timestamp: string;
+      payload: RequestData;
+    }
+
+    interface WebhooksApi {
+      signature(params: Narvi.WebhookSignatureParams): string;
+      verifySignature(params: Narvi.WebhookVerifyParams): boolean;
+      constructEvent(params: Narvi.WebhookVerifyParams): Narvi.NarviWebhookEvent;
+    }
   }
 
   export class Narvi {
@@ -48,7 +93,10 @@ declare module 'narvi' {
     // Fields: The beginning of the section generated from our OpenAPI spec
     accounts: Narvi.AccountsResource
     transactions: Narvi.TransactionsResource
+    baas: Narvi.BaasResource
     // Fields: The end of the section generated from our OpenAPI spec
+
+    webhooks: Narvi.WebhooksApi
     /**
      * API Errors
      */
@@ -64,6 +112,9 @@ declare module 'narvi' {
       queryParams?: RequestData;
       payload?: RequestData;
     }
+    static getNarviChallengeSignature: (params: Narvi.GetNarviChallengeSignatureParams) => string
+    static getNarviWebhookSignature: (params: Narvi.WebhookSignatureParams) => string
+    static webhooks: Narvi.WebhooksApi
 
 
   }
