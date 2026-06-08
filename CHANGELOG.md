@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.1.0](https://github.com/narvicom/narvi-node/compare/2.0.52...2.1.0) (2026-06-08)
+
+### Features
+
+* add baas resources and webhook utils ([15285cb](https://github.com/narvicom/narvi-node/commit/15285cbabb0a6e4409bf0fd89a30b83572f3f00e))
+
 ## [2.0.52](https://github.com/narvicom/narvi-node/compare/2.0.48...2.0.52) (2026-05-15)
 
 ### Bug Fixes
