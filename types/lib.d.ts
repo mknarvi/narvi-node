@@ -2,7 +2,28 @@
 /// <reference types="node" />
 
 import { Agent } from 'http'
-import { HttpClientInterface } from '../src/http/HttpClient'
+
+interface NarviHttpClientResponseInterface {
+  getStatusCode: () => number
+  getHeaders: () => Record<string, string | string[]>
+  getRawResponse: () => unknown
+  toStream: (streamCompleteCallback: () => void) => unknown
+  toJSON: () => Promise<any>
+}
+
+interface HttpClientInterface {
+  getClientName: () => string
+  makeRequest: (
+    host: string,
+    port: string,
+    path: string,
+    method: string,
+    headers: Record<string, string | number | string[]>,
+    requestData: Record<string, any>,
+    protocol: string,
+    timeout: number,
+  ) => Promise<NarviHttpClientResponseInterface>
+}
 
 declare module 'narvi' {
   namespace Narvi {

@@ -3,7 +3,7 @@
     "outDir": "./cjs",
     "rootDir": "./src",
     "module": "commonjs",
-    "target": "es2017",
+    "target": "es2022",
     "checkJs": false,
     "alwaysStrict": true,
     "noImplicitAny": true,

@@ -3,16 +3,17 @@
 ///<reference path='./shared.d.ts' />
 ///<reference path='./Errors.d.ts' />
 // Imports: The beginning of the section generated from our OpenAPI spec
+///<reference path='./Accounts.d.ts' />
 ///<reference path='./AccountsResource.d.ts' />
+///<reference path='./Transactions.d.ts' />
 ///<reference path='./TransactionsResource.d.ts' />
 ///<reference path='./BaasResource.d.ts' />
 // Imports: The end of the section generated from our OpenAPI spec
 
-import { KeyObject } from "crypto";
-import { RequestData } from "../src/Types";
-
 declare module 'narvi' {
   // Added to in other modules, referenced above.
+  type KeyObject = import('node:crypto').KeyObject
+  type RequestData = Record<string, any>
   export namespace Narvi {
     interface SignRequestParams {
       privateKey: KeyObject;

@@ -22,7 +22,7 @@
     "url": "https://github.com/narvicom/narvi-node/issues"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=20.0.0"
   },
   "main": "cjs/narvi.cjs.node.js",
   "types": "types/index.d.ts",
@@ -37,6 +37,7 @@
     "@types/qs": "6.15.1",
     "@typescript-eslint/eslint-plugin": "8.59.3",
     "@typescript-eslint/parser": "8.59.3",
+    "esbuild": "^0.27.7",
     "eslint": "10.3.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
@@ -66,8 +67,9 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn build-esm && yarn build-cjs",
-    "build-esm": "mkdir -p esm && tsc -p tsconfig.esm.json && echo '{\"type\":\"module\"}' > esm/package.json",
+    "build-esm": "node scripts/build-esm.mjs",
     "build-cjs": "mkdir -p cjs && tsc -p tsconfig.cjs.json && echo '{\"type\":\"commonjs\"}' > cjs/package.json",
+    "check:build": "yarn build && node scripts/check-build.mjs",
     "pretest": "yarn build",
     "test": "node --test",
     "prepack": "yarn install && yarn build",
@@ -76,10 +78,15 @@
     "publish": "npm publish --access public"
   },
   "exports": {
-    "types": "./types/index.d.ts",
-    "default": {
-      "import": "./esm/narvi.esm.node.js",
-      "require": "./cjs/narvi.cjs.node.js"
+    ".": {
+      "import": {
+        "types": "./types/index.d.mts",
+        "default": "./esm/narvi.esm.node.js"
+      },
+      "require": {
+        "types": "./types/index.d.ts",
+        "default": "./cjs/narvi.cjs.node.js"
+      }
     }
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
